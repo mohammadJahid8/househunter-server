@@ -11,10 +11,11 @@ router.get(
   auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.RENTER),
   OrdersController.getSingleBooking
 );
-router.get(
-  '/',
-  auth(ENUM_USER_ROLE.OWNER, ENUM_USER_ROLE.RENTER),
-  OrdersController.getBookings
+router.get('/', auth(ENUM_USER_ROLE.RENTER), OrdersController.getBookings);
+router.delete(
+  '/:id',
+  auth(ENUM_USER_ROLE.RENTER),
+  OrdersController.deleteBookings
 );
 
 export const BookingsRoute = router;

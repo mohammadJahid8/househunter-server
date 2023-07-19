@@ -21,7 +21,7 @@ const auth =
 
       req.user = verifiedUser;
 
-      console.log('verifiedUser', verifiedUser, token);
+      console.log('verifiedUser', req.originalUrl);
 
       // role check
       if (requiredRoles.length && !requiredRoles.includes(verifiedUser.role)) {

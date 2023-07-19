@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 import { BookingModel, IBooking } from './bookings.interface';
 
 const OrderSchema = new Schema<IBooking>(
@@ -10,6 +10,10 @@ const OrderSchema = new Schema<IBooking>(
 
     renter: {
       type: String,
+      ref: 'User',
+    },
+    renterId: {
+      type: Types.ObjectId,
       ref: 'User',
     },
     owner: {

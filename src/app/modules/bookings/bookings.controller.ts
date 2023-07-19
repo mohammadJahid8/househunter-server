@@ -8,7 +8,11 @@ import { IBooking } from './bookings.interface';
 import { OrdersService } from './bookings.service';
 
 const createBooking = catchAsync(async (req: Request, res: Response) => {
-  await OrdersService.createBooking(req.body.house, req.body.renter);
+  await OrdersService.createBooking(
+    req.body.house,
+    req.body.renter,
+    req.body.renterId
+  );
 
   sendResponse<IBooking>(res, {
     statusCode: httpStatus.OK,
@@ -39,8 +43,20 @@ const getSingleBooking = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteBookings = catchAsync(async (req: Request, res: Response) => {
+  await OrdersService.deleteBookings(req.params.id);
+
+  sendResponse<IBooking>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: ' booking delete successfully',
+    data: null,
+  });
+});
+
 export const OrdersController = {
   createBooking,
   getBookings,
   getSingleBooking,
+  deleteBookings,
 };

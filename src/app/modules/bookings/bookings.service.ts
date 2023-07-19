@@ -7,11 +7,9 @@ import { Booking } from './bookings.model';
 
 const createBooking = async (
   HouseId: Types.ObjectId,
-  renterEmail: Types.ObjectId
+  renterEmail: Types.ObjectId,
+  renterId: Types.ObjectId
 ) => {
-  // const renter = await User.find({
-  //   email: renterEmail,
-  // });
   const house = await House.findById(HouseId);
   const ownerEmail = house?.owner;
   // const owner = await User.find({
@@ -31,6 +29,7 @@ const createBooking = async (
     const bookingIntent = {
       house: updatedHouse?.id,
       renter: renterEmail,
+      renterId: renterId,
       owner: ownerEmail,
 
       orderStatus: 'success',
@@ -49,28 +48,39 @@ const createBooking = async (
 };
 
 const getBookings = async (user: JwtPayload | null): Promise<IBooking[]> => {
-  let query = {};
-  if (user?.role === 'admin') {
-    query = {};
-  } else if (user?.role === 'buyer') {
-    query = { buyer: user?.id };
-  } else if (user?.role === 'owner') {
-    query = { owner: user?.id };
-  }
-
-  const orders = await Booking.find(query);
+  const orders = await Booking.find({
+    renter: user?.email,
+  })
+    .populate('house')
+    .populate('renterId');
   return orders;
 };
 const getSingleBooking = async (id: string) => {
   const singleOrder = await Booking.findById(id)
     .populate('house')
-    .populate('renter');
+    .populate('renterId');
 
   return singleOrder;
+};
+
+const deleteBookings = async (id: string) => {
+  // update house by id
+  const res = await House.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      label: 'for rent',
+    }
+  );
+  console.log(res);
+
+  await Booking.findByIdAndDelete(id);
 };
 
 export const OrdersService = {
   createBooking,
   getBookings,
   getSingleBooking,
+  deleteBookings,
 };

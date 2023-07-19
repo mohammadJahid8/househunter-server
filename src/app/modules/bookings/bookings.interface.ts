@@ -7,6 +7,7 @@ export type IBooking = {
   house: Types.ObjectId | IHouse;
 
   renter: string | IUser;
+  renterId: Types.ObjectId | IUser;
   owner: string | IUser;
   orderStatus: string;
 };
