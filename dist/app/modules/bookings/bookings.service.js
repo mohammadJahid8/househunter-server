@@ -16,10 +16,7 @@ exports.OrdersService = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const house_model_1 = require("../house/house.model");
 const bookings_model_1 = require("./bookings.model");
-const createBooking = (HouseId, renterEmail) => __awaiter(void 0, void 0, void 0, function* () {
-    // const renter = await User.find({
-    //   email: renterEmail,
-    // });
+const createBooking = (HouseId, renterEmail, renterId) => __awaiter(void 0, void 0, void 0, function* () {
     const house = yield house_model_1.House.findById(HouseId);
     const ownerEmail = house === null || house === void 0 ? void 0 : house.owner;
     // const owner = await User.find({
@@ -32,6 +29,7 @@ const createBooking = (HouseId, renterEmail) => __awaiter(void 0, void 0, void 0
         const bookingIntent = {
             house: updatedHouse === null || updatedHouse === void 0 ? void 0 : updatedHouse.id,
             renter: renterEmail,
+            renterId: renterId,
             owner: ownerEmail,
             orderStatus: 'success',
         };
@@ -48,27 +46,38 @@ const createBooking = (HouseId, renterEmail) => __awaiter(void 0, void 0, void 0
     }
 });
 const getBookings = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    let query = {};
-    if ((user === null || user === void 0 ? void 0 : user.role) === 'admin') {
-        query = {};
-    }
-    else if ((user === null || user === void 0 ? void 0 : user.role) === 'buyer') {
-        query = { buyer: user === null || user === void 0 ? void 0 : user.id };
-    }
-    else if ((user === null || user === void 0 ? void 0 : user.role) === 'owner') {
-        query = { owner: user === null || user === void 0 ? void 0 : user.id };
-    }
-    const orders = yield bookings_model_1.Booking.find(query);
+    const orders = yield bookings_model_1.Booking.find({
+        renter: user === null || user === void 0 ? void 0 : user.email,
+    })
+        .populate('house')
+        .populate('renterId');
     return orders;
 });
 const getSingleBooking = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const singleOrder = yield bookings_model_1.Booking.findById(id)
         .populate('house')
-        .populate('renter');
+        .populate('renterId');
     return singleOrder;
+});
+const deleteBookings = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const deletedBooking = yield bookings_model_1.Booking.findById(id);
+    console.log(deletedBooking);
+    const updatedHouse = yield house_model_1.House.findOneAndUpdate({
+        _id: deletedBooking === null || deletedBooking === void 0 ? void 0 : deletedBooking.house,
+    }, {
+        label: 'for rent',
+    }, { new: true });
+    if (updatedHouse) {
+        yield bookings_model_1.Booking.findByIdAndDelete(id);
+    }
+    // console.log(updatedHouse);
+    // Delete booking by id
+    // const deletedBooking = await Booking.findByIdAndDelete(id);
+    // console.log(deletedBooking);
 });
 exports.OrdersService = {
     createBooking,
     getBookings,
     getSingleBooking,
+    deleteBookings,
 };

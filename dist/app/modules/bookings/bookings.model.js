@@ -11,6 +11,10 @@ const OrderSchema = new mongoose_1.Schema({
         type: String,
         ref: 'User',
     },
+    renterId: {
+        type: mongoose_1.Types.ObjectId,
+        ref: 'User',
+    },
     owner: {
         type: String,
         ref: 'User',

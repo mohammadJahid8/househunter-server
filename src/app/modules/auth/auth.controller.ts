@@ -4,14 +4,22 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 
 import config from '../../../config';
+import ApiError from '../../../errors/ApiError';
 import {
   IRefreshTokenResponse,
   IUser,
   IUserLoginResponse,
 } from '../users/users.interface';
+import { User } from '../users/users.model';
 import { AuthUserService } from './auth.service';
 
 const createAuthUser = catchAsync(async (req: Request, res: Response) => {
+  const isUserExist = await User.isUserExist(req.body.email);
+
+  if (isUserExist) {
+    console.log('User already exist!');
+    throw new ApiError(httpStatus.NOT_FOUND, 'User already exist!');
+  }
   const result = await AuthUserService.createAuthUser(req.body);
 
   sendResponse<IUser>(res, {

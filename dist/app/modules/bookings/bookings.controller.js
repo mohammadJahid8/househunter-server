@@ -18,7 +18,7 @@ const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const bookings_service_1 = require("./bookings.service");
 const createBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield bookings_service_1.OrdersService.createBooking(req.body.house, req.body.renter);
+    yield bookings_service_1.OrdersService.createBooking(req.body.house, req.body.renter, req.body.renterId);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -44,8 +44,18 @@ const getSingleBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 
         data: result,
     });
 }));
+const deleteBookings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield bookings_service_1.OrdersService.deleteBookings(req.params.id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: ' booking delete successfully',
+        data: null,
+    });
+}));
 exports.OrdersController = {
     createBooking,
     getBookings,
     getSingleBooking,
+    deleteBookings,
 };

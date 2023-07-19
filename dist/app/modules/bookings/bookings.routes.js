@@ -11,5 +11,6 @@ const bookings_controller_1 = require("./bookings.controller");
 const router = express_1.default.Router();
 router.post('/', (0, auth_1.default)(enums_1.ENUM_USER_ROLE.RENTER), bookings_controller_1.OrdersController.createBooking);
 router.get('/:id', (0, auth_1.default)(enums_1.ENUM_USER_ROLE.OWNER, enums_1.ENUM_USER_ROLE.RENTER), bookings_controller_1.OrdersController.getSingleBooking);
-router.get('/', (0, auth_1.default)(enums_1.ENUM_USER_ROLE.OWNER, enums_1.ENUM_USER_ROLE.RENTER), bookings_controller_1.OrdersController.getBookings);
+router.get('/', (0, auth_1.default)(enums_1.ENUM_USER_ROLE.RENTER), bookings_controller_1.OrdersController.getBookings);
+router.delete('/:id', (0, auth_1.default)(enums_1.ENUM_USER_ROLE.RENTER), bookings_controller_1.OrdersController.deleteBookings);
 exports.BookingsRoute = router;

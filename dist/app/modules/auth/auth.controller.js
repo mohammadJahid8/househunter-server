@@ -28,8 +28,15 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const config_1 = __importDefault(require("../../../config"));
+const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
+const users_model_1 = require("../users/users.model");
 const auth_service_1 = require("./auth.service");
 const createAuthUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const isUserExist = yield users_model_1.User.isUserExist(req.body.email);
+    if (isUserExist) {
+        console.log('User already exist!');
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User already exist!');
+    }
     const result = yield auth_service_1.AuthUserService.createAuthUser(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

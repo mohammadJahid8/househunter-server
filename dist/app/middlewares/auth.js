@@ -26,7 +26,7 @@ const auth = (...requiredRoles) => (req, res, next) => __awaiter(void 0, void 0,
         let verifiedUser = null;
         verifiedUser = jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt.secret);
         req.user = verifiedUser;
-        console.log('verifiedUser', verifiedUser, token);
+        console.log('verifiedUser', req.originalUrl);
         // role check
         if (requiredRoles.length && !requiredRoles.includes(verifiedUser.role)) {
             throw new ApiError_1.default(http_status_1.default.FORBIDDEN, 'Forbidden');

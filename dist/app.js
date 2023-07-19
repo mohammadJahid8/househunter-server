@@ -7,11 +7,13 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const http_status_1 = __importDefault(require("http-status"));
+const path_1 = __importDefault(require("path"));
 const globalErrorhandler_1 = __importDefault(require("./app/middlewares/globalErrorhandler"));
 const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
+console.log(path_1.default.join(process.cwd()));
 // parser
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -22,6 +24,12 @@ app.get('/', (req, res) => {
 });
 // global error handler
 app.use(globalErrorhandler_1.default);
+app.get('/images/:fileName', (req, res) => {
+    const fileName = req.params.fileName;
+    const filePath = path_1.default.resolve(__dirname, 'images/', fileName);
+    // Send the file as a response
+    res.sendFile(filePath);
+});
 // handle not found routes
 app.use((req, res, next) => {
     res.status(http_status_1.default.NOT_FOUND).json({

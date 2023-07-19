@@ -64,18 +64,30 @@ const getSingleBooking = async (id: string) => {
 };
 
 const deleteBookings = async (id: string) => {
-  // update house by id
-  const res = await House.findOneAndUpdate(
+  const deletedBooking = await Booking.findById(id);
+
+  console.log(deletedBooking);
+
+  const updatedHouse = await House.findOneAndUpdate(
     {
-      _id: id,
+      _id: deletedBooking?.house,
     },
     {
       label: 'for rent',
-    }
+    },
+    { new: true }
   );
-  console.log(res);
 
-  await Booking.findByIdAndDelete(id);
+  if (updatedHouse) {
+    await Booking.findByIdAndDelete(id);
+  }
+
+  // console.log(updatedHouse);
+
+  // Delete booking by id
+  // const deletedBooking = await Booking.findByIdAndDelete(id);
+
+  // console.log(deletedBooking);
 };
 
 export const OrdersService = {
