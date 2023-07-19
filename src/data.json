@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Order information retrieved successfully",
+  "data": {
+    "cow": {
+      "_id": "60cd9f2e1e1d8e001f165d23",
+      "id": "60cd9f2e1e1d8e001f165d23",
+      "name": "Bella",
+      "age": 4,
+      "price": 5000,
+      "location": "Dhaka",
+      "breed": "Brahman",
+      "weight": 400,
+      "label": "for sale",
+      "category": "Beef",
+      "seller": {
+        "_id": "60cd9f2e1e1d8e001f165d21",
+        "id": "60cd9f2e1e1d8e001f165d21",
+        "role": "buyer",
+        "name": {
+          "firstName": "Kopa",
+          "lastName": "Samsu"
+        },
+        "phoneNumber": "01711111111",
+        "address": "Chattogram",
+        "budget": 30000,
+        "income": 0
+      }
+    }
+  },
+  "buyer": {
+    "_id": "60cd9f2e1e1d8e001f165d24",
+    "id": "60cd9f2e1e1d8e001f165d24",
+    "role": "buyer",
+    "name": {
+      "firstName": "Kopa",
+      "lastName": "Samsu"
+    },
+    "phoneNumber": "01711111111",
+    "address": "Chattogram",
+    "budget": 30000,
+    "income": 0
+  }
+}
