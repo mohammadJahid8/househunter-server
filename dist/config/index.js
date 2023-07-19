@@ -13,6 +13,9 @@ exports.default = {
     port: process.env.PORT,
     database_url: process.env.DATABASE_URL,
     bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
+    cloudinary_name: process.env.CLOUDINARY_NAME,
+    cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
+    cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET,
     jwt: {
         secret: process.env.JWT_SECRET,
         refresh_secret: process.env.JWT_REFRESH_SECRET,
