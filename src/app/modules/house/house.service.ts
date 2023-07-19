@@ -5,6 +5,8 @@ import ApiError from '../../../errors/ApiError';
 import { PaginationHelper } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+
+import { JwtPayload } from 'jsonwebtoken';
 import { HouseSearchableFields } from './house.constants';
 import { IHouse, IHouseFilters } from './house.interface';
 import { House } from './house.model';
@@ -65,6 +67,16 @@ const getSingleHouse = async (id: string): Promise<IHouse | null> => {
   return result;
 };
 
+const getHouseByToken = async (user: JwtPayload): Promise<IHouse[]> => {
+  const email = user.email;
+
+  const result = await House.find({
+    owner: email,
+  });
+
+  return result;
+};
+
 const updateHouse = async (
   id: string,
   payload: Partial<IHouse>
@@ -102,4 +114,5 @@ export const HouseService = {
   getSingleHouse,
   updateHouse,
   deleteHouse,
+  getHouseByToken,
 };

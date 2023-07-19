@@ -2,6 +2,7 @@ import express from 'express';
 
 import { AuthUserRoutes } from '../modules/auth/auth.routes';
 
+import { BookingsRoute } from '../modules/bookings/bookings.routes';
 import { HouseRoutes } from '../modules/house/house.routes';
 import { UserRoutes } from '../modules/users/users.routes';
 
@@ -19,6 +20,10 @@ const moduleRoutes = [
   {
     path: '/house',
     route: HouseRoutes,
+  },
+  {
+    path: '/bookings',
+    route: BookingsRoute,
   },
 ];
 

@@ -28,8 +28,16 @@ const CowModel = new Schema<IHouse>(
       type: String,
       required: true,
     },
+    availabilityDate: {
+      type: String,
+      required: true,
+    },
 
     bedrooms: {
+      type: Number,
+      required: true,
+    },
+    bathrooms: {
       type: Number,
       required: true,
     },

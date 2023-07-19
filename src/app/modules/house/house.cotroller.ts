@@ -33,6 +33,23 @@ const getAllHouses = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getHouseByToken = catchAsync(async (req: Request, res: Response) => {
+  console.log('req.user', req.user);
+  if (!req.user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'No data found!');
+  }
+
+  const result = await HouseService.getHouseByToken(req.user);
+
+  sendResponse<IHouse[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My house got successfully!',
+
+    data: result,
+  });
+});
+
 const getSingleHouse = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await HouseService.getSingleHouse(id);
@@ -81,4 +98,5 @@ export const HouseController = {
   getSingleHouse,
   updateHouse,
   deleteHouse,
+  getHouseByToken,
 };
