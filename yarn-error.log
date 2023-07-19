@@ -28,7 +28,7 @@ Trace:
 
 npm manifest: 
   {
-    "name": "digital-cow-hut-backend-assignment-3",
+    "name": "house-hunter-server",
     "version": "1.0.0",
     "description": "",
     "main": "src/server.ts",
